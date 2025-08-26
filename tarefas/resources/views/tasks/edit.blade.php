@@ -15,102 +15,62 @@
 
         body {
             background: var(--cor-5);
-            color: #2a2a2a;
             font-family: Arial, sans-serif;
-            margin: 40px;
         }
 
-        h1 {
-            color: var(--cor-1);
-            margin-bottom: 30px;
-        }
+        h1 { color: var(--cor-1); }
 
-        form {
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-            max-width: 400px;
-        }
-
-        label {
-            font-weight: 600;
-            color: var(--cor-2);
-        }
-
-        input[type="text"] {
-            width: 100%;
-            padding: 10px;
-            border: 2px solid var(--cor-3);
-            border-radius: 5px;
-            margin: 10px 0 20px 0;
-        }
-
-        button[type="submit"] {
-            background-color: var(--cor-3);
-            color: white;
+        .btn-custom {
+            background-color: #CC4852;
             border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: background-color 0.3s;
+            color: #fff;
         }
-
-        button[type="submit"]:hover {
-            background-color: var(--cor-4);
-        }
-
-        a {
-            display: inline-block;
-            margin-top: 15px;
-            color: var(--cor-1);
-            font-weight: 600;
-            text-decoration: none;
-            transition: color 0.3s;
-        }
-
-        a:hover {
-            color: var(--cor-3);
-            text-decoration: underline;
-        }
-
+        .btn-custom:hover { background-color: #E5515C; }
         .alert-danger {
             background-color: var(--cor-1);
-            color: white;
-            padding: 15px;
-            border-radius: 8px;
-            max-width: 400px;
-            margin-bottom: 20px;
+            color: #fff;
+            border: none;
         }
-
     </style>
 </head>
-<body class="container">
+<body>
+<div class="container d-flex justify-content-center align-items-center min-vh-100">
+    <div class="col-md-6">
 
-    <h1>Editar Tarefa</h1>
+        <h1 class="mb-4 text-center">Editar Tarefa</h1>
 
-    <!-- Exibe erros -->
-    @if ($errors->any())
-        <div class="alert alert-danger">
-            <ul>
-                @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-                @endforeach
-            </ul>
+        <!-- Erros -->
+        @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul class="mb-0">
+                    @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
+        <!-- Formulário -->
+        <div class="card shadow-sm p-4">
+            <form action="{{ route('tasks.update', $task) }}" method="POST">
+                @csrf
+                @method('PUT')
+
+                <div class="mb-3">
+                    <label for="title" class="form-label fw-bold text-danger">Título</label>
+                    <input type="text" name="title" id="title" class="form-control border-2" value="{{ $task->title }}" required>
+                </div>
+
+                <div class="d-flex justify-content-between">
+                    <a href="{{ route('tasks.index') }}" class="btn btn-custom">← Voltar</a>
+                    <button type="submit" class="btn btn-custom">Salvar</button>
+                </div>
+            </form>
         </div>
-    @endif
 
-    <!-- Formulário de edição -->
-    <form action="{{ route('tasks.update', $task) }}" method="POST">
-        @csrf
-        @method('PUT')
-        <label for="title">Título:</label>
-        <input type="text" name="title" value="{{ $task->title }}" required>
-        <button type="submit">Salvar</button>
-    </form>
-
-    <p><a href="{{ route('tasks.index') }}">← Voltar para lista</a></p>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
+
